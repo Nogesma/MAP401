@@ -28,24 +28,24 @@ typedef struct Image_
 } Image;
 
 /* cr�ation d'une image PBM de dimensions L x H avec tous les pixels blancs */
-Image creer_image(UINT L, UINT H);
+Image createImage(UINT L, UINT H);
 
 /* suppression de l'image I = *p_I*/
-void supprimer_image(Image *p_I);
+void deleteImage(Image *p_I);
 
 /* renvoie la valeur du pixel (x,y) de l'image I
    si (x,y) est hors de l'image la fonction renvoie BLANC */
-Pixel get_pixel_image(Image I, int x, int y);
+Pixel getPixelOfImage(Image I, int x, int y);
 
 /* change la valeur du pixel (x,y) de l'image I avec la valeur v
    si (x,y) est hors de l'image la fonction ne fait rien */
-void set_pixel_image(Image I, int x, int y, Pixel v);
+void setPixelOfImage(Image I, int x, int y, Pixel v);
 
 /* renvoie la largeur de l'image I */
-UINT largeur_image(Image I);
+UINT widthImage(Image I);
 
 /* renvoie la hauteur de l'image I */
-UINT hauteur_image(Image I);
+UINT heightImage(Image I);
 
 /* calculer l'image-masque de l'image I */
 Image calculer_masque_image(Image I);
@@ -53,9 +53,9 @@ Image calculer_masque_image(Image I);
 /* lire l'image dans le fichier nomm� nom_f
    s'il y a une erreur dans le fichier le programme s'arrete en affichant
    un message */
-Image lire_fichier_image(char *nom_f);
+Image readImageFile(char *nom_f);
 
 /* �crire l'image I � l'�cran */
-void ecrire_image(Image I);
+void writeImage(Image I);
 
 #endif /* _IMAGE_H_ */

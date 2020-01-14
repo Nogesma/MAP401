@@ -1,5 +1,5 @@
 /****************************************************************************** 
-  Impl�mentation du module image_pbm
+  Implémentation du module image_pbm
 ******************************************************************************/
 
 #include <stdio.h>
@@ -8,11 +8,11 @@
 #include "types_macros.h"
 #include "image.h"
 
-/* macro donnant l'indice d'un pixel de coordonn�es (_x,_y) de l'image _I */
+/* macro donnant l'indice d'un pixel de coordonnées (_x,_y) de l'image _I */
 #define INDICE_PIXEL(_I, _x, _y) ((_x)-1) + (_I).L *((_y)-1)
 
-/* cr�ation d'une image PBM de dimensions L x H avec tous les pixels blancs */
-Image creer_image(UINT L, UINT H)
+/* création d'une image PBM de dimensions L x H avec tous les pixels blancs */
+Image createImage(UINT L, UINT H)
 {
 	Image I;
 	UINT i;
@@ -37,7 +37,7 @@ Image creer_image(UINT L, UINT H)
 }
 
 /* suppression de l'image I = *p_I*/
-void supprimer_image(Image *p_I)
+void deleteImage(Image *p_I)
 {
 	free(p_I->tab);
 	p_I->L = 0;
@@ -46,7 +46,7 @@ void supprimer_image(Image *p_I)
 
 /* renvoie la valeur du pixel (x,y) de l'image I
    si (x,y) est hors de l'image la fonction renvoie BLANC */
-Pixel get_pixel_image(Image I, int x, int y)
+Pixel getPixelOfImage(Image I, int x, int y)
 {
 	if (x < 1 || x > I.L || y < 1 || y > I.H)
 		return BLANC;
@@ -55,7 +55,7 @@ Pixel get_pixel_image(Image I, int x, int y)
 
 /* change la valeur du pixel (x,y) de l'image I avec la valeur v
    si (x,y) est hors de l'image la fonction ne fait rien */
-void set_pixel_image(Image I, int x, int y, Pixel v)
+void setPixelOfImage(Image I, int x, int y, Pixel v)
 {
 	if (x < 1 || x > I.L || y < 1 || y > I.H)
 		return;
@@ -63,13 +63,13 @@ void set_pixel_image(Image I, int x, int y, Pixel v)
 }
 
 /* renvoie la largeur de l'image I */
-UINT largeur_image(Image I)
+UINT widthImage(Image I)
 {
 	return I.L;
 }
 
 /* renvoie la hauteur de l'image I */
-UINT hauteur_image(Image I)
+UINT heightImage(Image I)
 {
 	return I.H;
 }
@@ -142,7 +142,7 @@ void entete_fichier_pbm(FILE *f)
 /* lire l'image dans le fichier nomm� nom_f
    s'il y a une erreur dans le fichier le programme s'arrete en affichant
    un message */
-Image lire_fichier_image(char *nom_f)
+Image readImageFile(char *nom_f)
 {
 	FILE *f;
 	UINT L, H;
@@ -161,18 +161,23 @@ Image lire_fichier_image(char *nom_f)
 	entete_fichier_pbm(f);
 
 	/* lecture des dimensions - lecture de 2 entiers */
-
-	/** PARTIE A COMPLETER **/
-
+	L = getc(f) - '0';
+	H = getc(f) - '0';
+	getc(f);
 	/* cr�ation de l'image I de dimensions L x H */
-
-	/** PARTIE A COMPLETER **/
-
+	I = createImage(L, H);
 	/* lecture des pixels du fichier - lecture caract�re par caract�re
 	   seuls les caracteres '0' (BLANC) ou '1' (NOIR) 
 	   doivent etre pris en compte */
-
-	/** PARTIE A COMPLETER **/
+	for (y = 0; y < H; ++y)
+	{
+		for (x = 0; x < L; ++x)
+		{
+			res_fscanf = getc(f) - '0';
+			I.tab[x + L * y] = res_fscanf;
+		}
+		res_fscanf = getc(f);
+	}
 
 	/* fermeture du fichier */
 	fclose(f);
@@ -181,8 +186,6 @@ Image lire_fichier_image(char *nom_f)
 }
 
 /* �crire l'image I � l'�cran */
-void ecrire_image(Image I)
+void writeImage(Image I)
 {
-
-	/** PARTIE A COMPLETER **/
 }
