@@ -1,4 +1,4 @@
-/****************************************************************************** 
+/******************************************************************************
   Interface du module image
 ******************************************************************************/
 
@@ -7,24 +7,19 @@
 
 #include "types_macros.h"
 
-/* 
+/*
  Type enum�r� Pixel  avec BLANC=0 et NOIR=1
  */
-typedef enum
-{
-  BLANC = 0,
-  NOIR = 1
-} Pixel;
+typedef enum { White = 0, Black = 1 } Pixel;
 
-/* 
+/*
  Type Image
  */
-typedef struct Image_
-{
-  UINT L, H;  /* largeur et hauteur de l'image */
-  Pixel *tab; /*  tableau de pixels */
-              /* le pixel d'abscisse x et d'ordonn�e y avec 1<=x<=L et 1<=y<=H 
-	   est tab[x-1+L*(y-1)] */
+typedef struct Image_ {
+  UINT L, H;   /* largeur et hauteur de l'image */
+  Pixel **tab; /*  tableau de pixels */
+  /* le pixel d'abscisse x et d'ordonn�e y avec 1<=x<=L et 1<=y<=H
+est tab[x-1+L*(y-1)] */
 } Image;
 
 /* cr�ation d'une image PBM de dimensions L x H avec tous les pixels blancs */
