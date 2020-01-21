@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = test_image
+EXECUTABLES = test_vecteurs
 
 
 #############################################################################
@@ -63,13 +63,6 @@ all : $(EXECUTABLES)
 ########################################################
 # regles explicites de compilation separee de modules
 # n'ayant pas de fichier .h ET/OU dependant d'autres modules
-image.o : image.c image.h types_macros.h
-	@echo ""
-	@echo "---------------------------------------------"
-	@echo "Compilation du module image"
-	@echo "---------------------------------------------"
-	$(CC) -c $(COMPILOPTS) $<
-
 vectors.o : vectors.c vectors.h
 	@echo ""
 	@echo "---------------------------------------------"
@@ -77,14 +70,7 @@ vectors.o : vectors.c vectors.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-outline.o : outline.c outline.h vectors.h
-	@echo ""
-	@echo "---------------------------------------------"
-	@echo "Compilation du module image"
-	@echo "---------------------------------------------"
-	$(CC) -c $(COMPILOPTS) $<
-
-test_image.o : test_image.c image.h outline.h
+test_vecteurs.o : test_vecteurs.c vectors.h
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Compilation du module test_image"
@@ -95,7 +81,7 @@ test_image.o : test_image.c image.h outline.h
 ########################################################
 # regles explicites de creation des executables
 
-test_image : test_image.o image.o vectors.o outline.o
+test_vecteurs : test_vecteurs.o image.o vectors.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
