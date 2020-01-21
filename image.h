@@ -48,7 +48,7 @@ Image calculer_masque_image(Image I);
 /* lire l'image dans le fichier nomm� nom_f
    s'il y a une erreur dans le fichier le programme s'arrete en affichant
    un message */
-Image readImageFile(char *nom_f);
+Image readImageFile(char *fileName);
 
 /* �crire l'image I � l'�cran */
 void writeImage(Image I);

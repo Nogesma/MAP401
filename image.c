@@ -126,7 +126,7 @@ void entete_fichier_pbm(FILE *f) {
 /* lire l'image dans le fichier nomm� nom_f
    s'il y a une erreur dans le fichier le programme s'arrete en affichant
    un message */
-Image readImageFile(char *nom_f) {
+Image readImageFile(char *fileName) {
   FILE *f;
   UINT L, H;
   UINT x, y;
@@ -134,7 +134,7 @@ Image readImageFile(char *nom_f) {
   Image I;
 
   /* ouverture du fichier nom_f en lecture */
-  f = fopen(nom_f, "r");
+  f = fopen(fileName, "r");
   if (f == (FILE *)NULL) {
     ERREUR_FATALE("lire_fichier_image : ouverture du fichier impossible\n");
   }
