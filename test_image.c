@@ -1,10 +1,11 @@
-#include "image.c"
-#include "outline.c"
+#include "image.h"
+#include "outline.h"
+//#include "vectors.h"
 
-int main(int argc, char const *argv[]) {
+int main() {
   Image I = readImageFile("caractere2.pbm");
   writeImage(I);
-  Point p = firstPixel(I);
+  // Point p = firstPixel(I);
   sequence s = outline(I);
   cell *c = newCell();
   c = s.head;

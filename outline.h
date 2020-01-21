@@ -14,10 +14,16 @@ typedef struct sequences {
 cell *newCell();
 
 Point firstPixel(Image I);
+
 Orientation turnLeft(Orientation o);
+
 Orientation turnRight(Orientation o);
+
 void getLRPixel(Point p, Point *leftPixel, Point *rightPixel, Orientation o);
+
 Point move(Point p, Orientation o);
+
 sequence outline(Image I);
+
 void outlineRec(Image I, Point initialPosition, Point currentPosition, cell *c,
                 Orientation o);

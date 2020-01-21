@@ -70,7 +70,21 @@ image.o : image.c image.h types_macros.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-test_image.o : test_image.c image.h 
+vectors.o : vectors.c vectors.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module vecteurs"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+outline.o : outline.c outline.h vectors.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module image"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test_image.o : test_image.c image.h outline.h
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Compilation du module test_image"
@@ -81,7 +95,7 @@ test_image.o : test_image.c image.h
 ########################################################
 # regles explicites de creation des executables
 
-test_image : test_image.o image.o 
+test_image : test_image.o image.o vectors.o outline.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
