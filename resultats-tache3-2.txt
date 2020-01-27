@@ -1,0 +1,39 @@
+caractere2.pbm
+Dimensions: 7x9
+Nombre de points de contours: 41
+
+chat.pbm
+Dimensions: 250x140
+Nombre de points de contours: 881
+
+coq.pbm
+Dimensions: 700x720
+Nombre de points de contours: 5387
+
+elephant.pbm
+Dimensions: 800x700
+Nombre de points de contours: 5345
+
+gymnaste.pbm
+Dimensions: 1056x1647
+Nombre de points de contours: 8785
+
+image_ex_poly.pbm
+Dimensions: 4x4
+Nombre de points de contours: 19
+
+labyrinthe.pbm
+Dimensions: 7x9
+Nombre de points de contours: 44001
+
+lettreZ.pbm
+Dimensions: 600x1029
+Nombre de points de contours: 9397
+
+map401.pbm
+Dimensions: 830x300
+Nombre de points de contours: 8073
+
+tete.pbm
+Dimensions: 1252x1252
+Nombre de points de contours: 8137
