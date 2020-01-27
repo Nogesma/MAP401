@@ -27,3 +27,5 @@ sequence outline(Image I);
 
 void outlineRec(Image I, Point initialPosition, Point currentPosition, cell *c,
                 Orientation o);
+
+void writeSequence(char *fileName, sequence s);

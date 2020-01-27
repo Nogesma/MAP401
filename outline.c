@@ -3,8 +3,8 @@
 Point firstPixel(Image I) {
   double i, j;
   Point P = {-1, -1};
-  for (i = 0; i < I.L; ++i) {
-    for (j = 0; j < I.H; ++j) {
+  for (j = 0; j < I.H; ++j) {
+    for (i = 0; i < I.L; ++i) {
       if (getPixelOfImage(I, i, j) == Black &&
           getPixelOfImage(I, i, j - 1) == White) {
         P.x = i;
@@ -25,7 +25,7 @@ Orientation turnLeft(Orientation o) {
     return South;
   case South:
     return East;
-  default:
+  case East:
     return North;
   }
 }
@@ -38,10 +38,11 @@ Orientation turnRight(Orientation o) {
     return South;
   case South:
     return West;
-  default:
+  case West:
     return North;
   }
 }
+
 cell *newCell() {
   cell *c;
   c = (cell *)malloc(sizeof(cell));
@@ -92,12 +93,13 @@ Point move(Point p, Orientation o) {
   case East:
     p.x++;
     break;
-  default:
+  case South:
     p.y++;
     break;
   }
   return p;
 }
+
 sequence outline(Image I) {
   Orientation o = East;
   Point P = firstPixel(I);
@@ -111,11 +113,14 @@ sequence outline(Image I) {
 void outlineRec(Image I, Point initialPosition, Point currentPosition, cell *c,
                 Orientation o) {
   Point leftPixel, rightPixel;
-  c->p = currentPosition;
   cell *c1 = newCell();
+
+  c->p = currentPosition;
   c->next = c1;
+
   currentPosition = move(currentPosition, o);
   getLRPixel(currentPosition, &leftPixel, &rightPixel, o);
+
   if (getPixelOfImage(I, leftPixel.x, leftPixel.y) == Black) {
     o = turnLeft(o);
   } else if (getPixelOfImage(I, rightPixel.x, rightPixel.y) == White) {
@@ -124,7 +129,34 @@ void outlineRec(Image I, Point initialPosition, Point currentPosition, cell *c,
 
   if (o == East && currentPosition.x == initialPosition.x &&
       currentPosition.y == initialPosition.y) {
+    c1->p = initialPosition;
     return;
   }
   outlineRec(I, initialPosition, currentPosition, c1, o);
+}
+
+void writeSequence(char *fileName, sequence s) {
+  FILE *f;
+  fileName[strlen(fileName) - 4] = '\0';
+  strcat(fileName, ".contours");
+  f = fopen(fileName, "w+");
+
+  fprintf(f, "1\n\n");
+
+  cell *c = newCell();
+  c = s.head;
+
+  int size = 0;
+  while (c != NULL) {
+    ++size;
+    c = c->next;
+  }
+  fprintf(f, "%d\n", size);
+
+  c = s.head;
+  while (c != NULL) {
+    fprintf(f, "%.2f %.2f\n", c->p.x, c->p.y);
+    c = c->next;
+  }
+  fclose(f);
 }

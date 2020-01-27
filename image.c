@@ -47,7 +47,7 @@ void deleteImage(Image *p_I) {
 /* renvoie la valeur du pixel (x,y) de l'image I
    si (x,y) est hors de l'image la fonction renvoie BLANC */
 Pixel getPixelOfImage(Image I, int x, int y) {
-  if (x < 1 || x > I.L || y < 1 || y > I.H)
+  if (x < 0 || x >= I.L || y < 0 || y >= I.H)
     return White;
   return I.tab[x][y];
 }
@@ -126,37 +126,45 @@ void entete_fichier_pbm(FILE *f) {
 /* lire l'image dans le fichier nomm� nom_f
    s'il y a une erreur dans le fichier le programme s'arrete en affichant
    un message */
-Image readImageFile(char *nom_f) {
+Image readImageFile(char *fileName) {
   FILE *f;
-  UINT L, H;
-  UINT x, y;
-  int res_fscanf;
+  char *l = NULL;
+  char *h = NULL;
+  UINT L, H, x, y;
+  int i = 0;
+  char *res_fscanf = NULL;
   Image I;
 
   /* ouverture du fichier nom_f en lecture */
-  f = fopen(nom_f, "r");
+  f = fopen(fileName, "r");
   if (f == (FILE *)NULL) {
     ERREUR_FATALE("lire_fichier_image : ouverture du fichier impossible\n");
   }
 
   /* traitement de l'en-tete et arret en cas d'erreur */
   entete_fichier_pbm(f);
-
   /* lecture des dimensions - lecture de 2 entiers */
-  L = getc(f) - '0';
-  H = getc(f) - '0';
-  getc(f);
+  size_t s = sizeof(UINT);
+  getdelim(&l, &s, ' ', f);
+  getdelim(&h, &s, '\n', f);
+  L = atoi(l);
+  H = atoi(h);
+
   /* cr�ation de l'image I de dimensions L x H */
   I = createImage(L, H);
   /* lecture des pixels du fichier - lecture caract�re par caract�re
      seuls les caracteres '0' (BLANC) ou '1' (NOIR)
      doivent etre pris en compte */
+  s = L * H;
+  getdelim(&res_fscanf, &s, '\0', f);
   for (y = 0; y < H; ++y) {
     for (x = 0; x < L; ++x) {
-      res_fscanf = getc(f) - '0';
-      I.tab[x][y] = res_fscanf;
+      while (res_fscanf[i] != '0' && res_fscanf[i] != '1') {
+        ++i;
+      }
+      I.tab[x][y] = res_fscanf[i] - '0';
+      ++i;
     }
-    res_fscanf = getc(f);
   }
 
   /* fermeture du fichier */

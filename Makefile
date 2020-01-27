@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = test_image
+EXECUTABLES = test_outline
 
 
 #############################################################################
@@ -80,11 +80,11 @@ vectors.o : vectors.c vectors.h
 outline.o : outline.c outline.h vectors.h
 	@echo ""
 	@echo "---------------------------------------------"
-	@echo "Compilation du module image"
+	@echo "Compilation du module outline"
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-test_image.o : test_image.c image.h outline.h
+test_outline.o : test_outline.c image.h outline.h
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Compilation du module test_image"
@@ -95,7 +95,7 @@ test_image.o : test_image.c image.h outline.h
 ########################################################
 # regles explicites de creation des executables
 
-test_image : test_image.o image.o vectors.o outline.o
+test_outline : test_outline.o image.o outline.o vectors.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
