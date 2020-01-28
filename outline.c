@@ -134,3 +134,21 @@ void outlineRec(Image I, Point initialPosition, Point currentPosition, cell *c,
   }
   outlineRec(I, initialPosition, currentPosition, c1, o);
 }
+
+Image mask(Image I) {
+  int x, y;
+  Image P;
+  P.H = I.H;
+  P.L = I.L;
+
+  for (y = 0; y < I.H; ++y) {
+    for (x = 0; x < I.L; ++x) {
+      if (getPixelOfImage(I, x, y) == Black &&
+          getPixelOfImage(I, x, y - 1) == White) {
+        P.tab[x][y] = Black;
+      } else {
+        P.tab[x][y] = White;
+      }
+    }
+  }
+}
