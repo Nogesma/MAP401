@@ -134,29 +134,3 @@ void outlineRec(Image I, Point initialPosition, Point currentPosition, cell *c,
   }
   outlineRec(I, initialPosition, currentPosition, c1, o);
 }
-
-void writeSequence(char *fileName, sequence s) {
-  FILE *f;
-  fileName[strlen(fileName) - 4] = '\0';
-  strcat(fileName, ".contours");
-  f = fopen(fileName, "w+");
-
-  fprintf(f, "1\n\n");
-
-  cell *c = newCell();
-  c = s.head;
-
-  int size = 0;
-  while (c != NULL) {
-    ++size;
-    c = c->next;
-  }
-  fprintf(f, "%d\n", size);
-
-  c = s.head;
-  while (c != NULL) {
-    fprintf(f, "%.2f %.2f\n", c->p.x, c->p.y);
-    c = c->next;
-  }
-  fclose(f);
-}

@@ -3,10 +3,6 @@
 ******************************************************************************/
 
 #include "image.h"
-#include "types_macros.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 /* création d'une image PBM de dimensions L x H avec tous les pixels blancs */
 Image createImage(UINT L, UINT H) {

@@ -6,7 +6,9 @@
 #define _IMAGE_H_
 
 #include "types_macros.h"
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 /*
  Type enum�r� Pixel  avec BLANC=0 et NOIR=1
  */

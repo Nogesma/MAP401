@@ -54,5 +54,8 @@ dkms.conf
 # Editor files
 .idea/
 
+# MacOS files
+.DS_Store
+
 # Executables
-test_outline
+testEPS

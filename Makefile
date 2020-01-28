@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = test_outline
+EXECUTABLES = testEPS
 
 
 #############################################################################
@@ -70,13 +70,6 @@ image.o : image.c image.h types_macros.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-vectors.o : vectors.c vectors.h
-	@echo ""
-	@echo "---------------------------------------------"
-	@echo "Compilation du module vecteurs"
-	@echo "---------------------------------------------"
-	$(CC) -c $(COMPILOPTS) $<
-
 outline.o : outline.c outline.h vectors.h
 	@echo ""
 	@echo "---------------------------------------------"
@@ -84,7 +77,14 @@ outline.o : outline.c outline.h vectors.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-test_outline.o : test_outline.c image.h outline.h
+file.o : file.c file.h outline.h image.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module file"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+testEPS.o : testEPS.c file.h
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Compilation du module test_image"
@@ -95,7 +95,7 @@ test_outline.o : test_outline.c image.h outline.h
 ########################################################
 # regles explicites de creation des executables
 
-test_outline : test_outline.o image.o outline.o vectors.o
+testEPS : testEPS.o image.o outline.o vectors.o file.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
