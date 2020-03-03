@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = testEPS
+EXECUTABLES = testOutline
 
 
 #############################################################################
@@ -46,7 +46,7 @@ EXECUTABLES = testEPS
 
 ########################################################
 # la r�gle par d�faut
-all : $(EXECUTABLES)
+all: $(EXECUTABLES)
 
 ########################################################
 # regle generique : 
@@ -84,7 +84,7 @@ file.o : file.c file.h outline.h image.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-testEPS.o : testEPS.c file.h
+testOutline.o : testOutline.c file.h
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Compilation du module test_image"
@@ -95,7 +95,7 @@ testEPS.o : testEPS.c file.h
 ########################################################
 # regles explicites de creation des executables
 
-testEPS : testEPS.o image.o outline.o vectors.o file.o
+testOutline : testOutline.o image.o outline.o vectors.o file.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
@@ -105,4 +105,4 @@ testEPS : testEPS.o image.o outline.o vectors.o file.o
 
 # regle pour "nettoyer" le r�pertoire
 clean:
-	rm -fR $(EXECUTABLES) *.o 
+	rm -fR $(EXECUTABLES) *.o

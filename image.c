@@ -51,7 +51,7 @@ Pixel getPixelOfImage(Image I, int x, int y) {
 /* change la valeur du pixel (x,y) de l'image I avec la valeur v
    si (x,y) est hors de l'image la fonction ne fait rien */
 void setPixelOfImage(Image I, int x, int y, Pixel v) {
-  if (x < 1 || x > I.L || y < 1 || y > I.H)
+  if (x < 0 || x >= I.L || y < 0 || y >= I.H)
     return;
   I.tab[x][y] = v;
 }
@@ -170,16 +170,21 @@ Image readImageFile(char *fileName) {
 }
 
 /* �crire l'image I � l'�cran */
-void writeImage(Image I) {
+void writeImage(Image I, char *fileName) {
   int x, y;
+  FILE *f;
+  fileName[strlen(fileName) - 4] = '\0';
+  strcat(fileName, "1.pbm");
+  f = fopen(fileName, "w+");
+
+  fprintf(f, "P1\n%d %d\n", I.L, I.H);
+
   for (y = 0; y < I.H; ++y) {
     for (x = 0; x < I.L; ++x) {
-      if (I.tab[x][y] == Black) {
-        printf("■");
-      } else {
-        printf("◻︎");
-      }
+      fprintf(f, "%d", I.tab[x][y]);
     }
-    printf("\n");
+    fprintf(f, "\n");
   }
+  fclose(f);
+  return;
 }

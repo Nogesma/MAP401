@@ -49,6 +49,12 @@ cell *newCell() {
   return c;
 }
 
+outline *newOutline() {
+  outline *o;
+  o = (outline *)malloc(sizeof(outline));
+  return o;
+}
+
 void getLRPixel(Point p, Point *leftPixel, Point *rightPixel, Orientation o) {
   switch (o) {
   case North:
@@ -100,25 +106,38 @@ Point move(Point p, Orientation o) {
   return p;
 }
 
-sequence outline(Image I) {
-  Orientation o = East;
-  Point P = firstPixel(I);
-  cell *c = newCell();
+sequence getOutlines(Image I) {
   sequence s;
-  s.head = c;
-  outlineRec(I, P, P, c, o);
+  outline *ot = newOutline();
+  s.head = ot;
+  Image M = mask(I);
+  Point P = firstPixel(M);
+  while (P.x != -1 && P.y != -1) {
+    cell *c = newCell();
+    ot->o = c;
+    Orientation o = East;
+    setPixelOfImage(M, P.x, P.y, White);
+    outlineRec(I, M, P, P, c, o);
+    P = firstPixel(M);
+    outline *otN = newOutline();
+    ot->next = otN;
+    ot = ot->next;
+  }
   return s;
 }
 
-void outlineRec(Image I, Point initialPosition, Point currentPosition, cell *c,
-                Orientation o) {
+void outlineRec(Image I, Image M, Point initialPosition, Point currentPosition,
+                cell *c, Orientation o) {
   Point leftPixel, rightPixel;
   cell *c1 = newCell();
 
   c->p = currentPosition;
   c->next = c1;
 
+  if (o == East)
+    setPixelOfImage(M, currentPosition.x, currentPosition.y, White);
   currentPosition = move(currentPosition, o);
+
   getLRPixel(currentPosition, &leftPixel, &rightPixel, o);
 
   if (getPixelOfImage(I, leftPixel.x, leftPixel.y) == Black) {
@@ -129,17 +148,14 @@ void outlineRec(Image I, Point initialPosition, Point currentPosition, cell *c,
 
   if (o == East && currentPosition.x == initialPosition.x &&
       currentPosition.y == initialPosition.y) {
-    c1->p = initialPosition;
     return;
   }
-  outlineRec(I, initialPosition, currentPosition, c1, o);
+  outlineRec(I, M, initialPosition, currentPosition, c1, o);
 }
 
 Image mask(Image I) {
   int x, y;
-  Image P;
-  P.H = I.H;
-  P.L = I.L;
+  Image P = createImage(I.L, I.H);
 
   for (y = 0; y < I.H; ++y) {
     for (x = 0; x < I.L; ++x) {
@@ -151,4 +167,5 @@ Image mask(Image I) {
       }
     }
   }
+  return P;
 }

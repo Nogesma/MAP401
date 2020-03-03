@@ -8,10 +8,18 @@ typedef struct cells {
   struct cells *next;
 } cell;
 
+typedef struct outlines {
+  cell *o;
+  struct outlines *next;
+} outline;
+
 typedef struct sequences {
-  cell *head;
+  outline *head;
 } sequence;
+
 cell *newCell();
+
+outline *newOutline();
 
 Point firstPixel(Image I);
 
@@ -23,9 +31,9 @@ void getLRPixel(Point p, Point *leftPixel, Point *rightPixel, Orientation o);
 
 Point move(Point p, Orientation o);
 
-sequence outline(Image I);
+sequence getOutlines(Image I);
 
-void outlineRec(Image I, Point initialPosition, Point currentPosition, cell *c,
-                Orientation o);
+void outlineRec(Image I, Image M, Point initialPosition, Point currentPosition,
+                cell *c, Orientation o);
 
 Image mask(Image I);
