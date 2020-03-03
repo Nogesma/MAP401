@@ -53,6 +53,11 @@ dkms.conf
 
 # Editor files
 .idea/
+cmake-build-debug/
+CMakeLists.txt
+
+# MacOS files
+.DS_Store
 
 # Executables
-test_outline
+testOutline

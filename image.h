@@ -6,7 +6,9 @@
 #define _IMAGE_H_
 
 #include "types_macros.h"
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 /*
  Type enum�r� Pixel  avec BLANC=0 et NOIR=1
  */
@@ -51,6 +53,6 @@ Image calculer_masque_image(Image I);
 Image readImageFile(char *nom_f);
 
 /* �crire l'image I � l'�cran */
-void writeImage(Image I);
+void writeImage(Image I, char *fileName);
 
 #endif /* _IMAGE_H_ */
