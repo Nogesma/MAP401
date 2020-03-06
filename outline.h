@@ -17,6 +17,11 @@ typedef struct sequences {
   outline *head;
 } sequence;
 
+typedef struct lists {
+  struct list *next;
+  Point p[];
+} list;
+
 cell *newCell();
 
 outline *newOutline();

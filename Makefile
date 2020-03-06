@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = testOutline
+EXECUTABLES = testOutline vectorTest vector.test
 
 
 #############################################################################
@@ -91,11 +91,38 @@ testOutline.o : testOutline.c file.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 		
-		
+vectorTest.o : vectorTest.c vectors.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_image"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+vector.test.o : vector.test.c vectors.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_image"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
 ########################################################
 # regles explicites de creation des executables
 
 testOutline : testOutline.o image.o outline.o vectors.o file.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+vectorTest : vectorTest.o vectors.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+vector.test : vector.test.o vectors.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@

@@ -55,6 +55,12 @@ outline *newOutline() {
   return o;
 }
 
+list *newList() {
+  list *l;
+  l = (list *)malloc(sizeof(struct list));
+  return l;
+}
+
 void getLRPixel(Point p, Point *leftPixel, Point *rightPixel, Orientation o) {
   switch (o) {
   case North:
@@ -169,3 +175,81 @@ Image mask(Image I) {
   }
   return P;
 }
+
+// sequence simplifyOutline(sequence s, int d) {
+//  outline *ot = newOutline();
+//  ot = s.head;
+//  while (ot != NULL) {
+//    simplifyOutlineRec(ot, maxDistance);
+//    ot = ot->next;
+//  }
+//  return s;
+//}
+
+list sequenceToList(sequence s) {
+  outline *o = newOutline();
+  cell *c = newCell();
+  o = s.head;
+  list l = newList();
+  list *ll = newList();
+  ll = l;
+  int size = 0;
+  while (o->next != NULL) {
+    c = o.o;
+    while (c->next != NULL) {
+      ++size;
+      c = c->next;
+    }
+    ll.p[size];
+    c = o.o;
+    size = 0;
+    while (c->next != NULL) {
+      l.p[size] = c->p;
+      ++size;
+      c = c->next;
+    }
+    o = o->next;
+    ll = ll->next;
+  }
+
+  return l;
+}
+
+// void simplifyOutlineRec(outline o, int i, int j, int d) {
+//  double dmax = 0;
+//  int k = i;
+//  int l = 0;
+//  double dj;
+//  cell *c = newCell();
+//  c = o.o;
+//  Point Pi, Pj;
+//  while (l < j) {
+//    if (l == i) {
+//      Pi = c->p;
+//    }
+//    ++l;
+//    c = c->next;
+//  }
+//  Pj = c->p;
+//
+//  c = o.o;
+//  l = 0;
+//  while (l < j) {
+//    if (l < i) {
+//      c = c->next;
+//      ++l;
+//      continue;
+//    }
+//    dj = pointLineDistance(c->p, Pi, Pj);
+//    if (dmax < dj) {
+//      dmax = dj;
+//      k = j;
+//    }
+//    ++l;
+//  }
+//
+//  Vector L;
+//  if (dmax <= d) {
+//    o.o
+//  }
+//}
