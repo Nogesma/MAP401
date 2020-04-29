@@ -55,12 +55,6 @@ outline *newOutline() {
   return o;
 }
 
-list *newList() {
-  list *l;
-  l = (list *)malloc(sizeof(struct list));
-  return l;
-}
-
 void getLRPixel(Point p, Point *leftPixel, Point *rightPixel, Orientation o) {
   switch (o) {
   case North:
@@ -176,80 +170,84 @@ Image mask(Image I) {
   return P;
 }
 
-// sequence simplifyOutline(sequence s, int d) {
-//  outline *ot = newOutline();
-//  ot = s.head;
-//  while (ot != NULL) {
-//    simplifyOutlineRec(ot, maxDistance);
-//    ot = ot->next;
-//  }
-//  return s;
-//}
-
-list sequenceToList(sequence s) {
-  outline *o = newOutline();
+arrInfo outlineToArray(outline o) {
   cell *c = newCell();
-  o = s.head;
-  list l = newList();
-  list *ll = newList();
-  ll = l;
-  int size = 0;
-  while (o->next != NULL) {
-    c = o.o;
-    while (c->next != NULL) {
-      ++size;
-      c = c->next;
-    }
-    ll.p[size];
-    c = o.o;
-    size = 0;
-    while (c->next != NULL) {
-      l.p[size] = c->p;
-      ++size;
-      c = c->next;
-    }
-    o = o->next;
-    ll = ll->next;
+  c = o.o;
+  int i = 0;
+  while (c != NULL) {
+    ++i;
+    c = c->next;
   }
-
-  return l;
+  c = o.o;
+  arrInfo A;
+  Point *L = (Point *)malloc(i);
+  A.arr = L;
+  A.n = i;
+  for (i = 0; i < A.n; ++i) {
+    L[i] = c->p;
+    c = c->next;
+  }
+  return A;
 }
 
-// void simplifyOutlineRec(outline o, int i, int j, int d) {
-//  double dmax = 0;
-//  int k = i;
-//  int l = 0;
-//  double dj;
-//  cell *c = newCell();
-//  c = o.o;
-//  Point Pi, Pj;
-//  while (l < j) {
-//    if (l == i) {
-//      Pi = c->p;
-//    }
-//    ++l;
-//    c = c->next;
-//  }
-//  Pj = c->p;
-//
-//  c = o.o;
-//  l = 0;
-//  while (l < j) {
-//    if (l < i) {
-//      c = c->next;
-//      ++l;
-//      continue;
-//    }
-//    dj = pointLineDistance(c->p, Pi, Pj);
-//    if (dmax < dj) {
-//      dmax = dj;
-//      k = j;
-//    }
-//    ++l;
-//  }
-//
-//  Vector L;
-//  if (dmax <= d) {
-//    o.o
-//  }
-//}
+cell *arrayToOutline(arrInfo A) {
+  outline *o = newOutline();
+  cell *c1 = newCell();
+  o->o = c1;
+  for (int i = 0; i < A.n; ++i) {
+    cell *c2 = newCell();
+    c1->p = A.arr[i];
+    c1->next = c2;
+    c1 = c2;
+  }
+  free(A.arr);
+  return o->o;
+}
+
+sequence simplifyOutline(sequence s, int d) {
+  outline *ot = newOutline();
+  ot = s.head;
+  while (ot != NULL) {
+    arrInfo C = outlineToArray(*ot);
+    ot->o = arrayToOutline(simplifyOutlineRec(C, 0, C.n - 1, d));
+    free(C.arr);
+    ot = ot->next;
+  }
+  return s;
+}
+
+arrInfo simplifyOutlineRec(arrInfo C, int j1, int j2, int d) {
+  double dmax = 0, dj;
+  int k = j1;
+  for (int j = j1 + 1; j < j2; ++j) {
+    dj = pointLineDistance(C.arr[j], C.arr[j1], C.arr[j2]);
+    if (dmax < dj) {
+      dmax = dj;
+      k = j;
+    }
+  }
+  arrInfo A;
+  A.n = 0;
+  if (dmax <= d) {
+    A.n = 2;
+    A.arr = (Point *)malloc(A.n);
+    A.arr[0] = C.arr[j1];
+    A.arr[1] = C.arr[j2];
+  } else {
+    arrInfo A1 = simplifyOutlineRec(C, j1, k, d);
+    arrInfo A2 = simplifyOutlineRec(C, k, j2, d);
+
+    A.n = A1.n + A2.n;
+    A.arr = (Point *)malloc(A.n);
+    for (int i = 0; i < A.n; ++i) {
+      if (i < A1.n)
+        A.arr[i] = A1.arr[i];
+      else
+        A.arr[i] = A2.arr[i - A1.n];
+
+      free(A1.arr);
+      free(A2.arr);
+    }
+  }
+  return A;
+}

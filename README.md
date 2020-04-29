@@ -12,3 +12,6 @@ Le programme test est [vectorTest.c](vectorTest.c) :
 Le jeu de test couvrant tous les cas est dans le fichier 
 [vector.test.c](vector.test.c) :
 `make vector.test`
+
+### Partie 2
+___

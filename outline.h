@@ -17,10 +17,10 @@ typedef struct sequences {
   outline *head;
 } sequence;
 
-typedef struct lists {
-  struct list *next;
-  Point p[];
-} list;
+typedef struct {
+  unsigned int n;
+  Point *arr;
+} arrInfo;
 
 cell *newCell();
 
@@ -42,3 +42,7 @@ void outlineRec(Image I, Image M, Point initialPosition, Point currentPosition,
                 cell *c, Orientation o);
 
 Image mask(Image I);
+
+sequence simplifyOutline(sequence s, int d);
+
+arrInfo simplifyOutlineRec(arrInfo C, int j1, int j2, int d);
