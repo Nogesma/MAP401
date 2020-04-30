@@ -44,14 +44,12 @@ Orientation turnRight(Orientation o) {
 }
 
 cell *newCell() {
-  cell *c;
-  c = (cell *)malloc(sizeof(cell));
+  cell *c = (cell *)malloc(sizeof(cell));
   return c;
 }
 
 outline *newOutline() {
-  outline *o;
-  o = (outline *)malloc(sizeof(outline));
+  outline *o = (outline *)malloc(sizeof(outline));
   return o;
 }
 
@@ -180,7 +178,7 @@ arrInfo outlineToArray(outline o) {
   }
   c = o.o;
   arrInfo A;
-  Point *L = (Point *)malloc(i);
+  Point *L = (Point *)malloc(i * sizeof(Point));
   A.arr = L;
   A.n = i;
   for (i = 0; i < A.n; ++i) {
@@ -194,13 +192,13 @@ cell *arrayToOutline(arrInfo A) {
   outline *o = newOutline();
   cell *c1 = newCell();
   o->o = c1;
-  for (int i = 0; i < A.n; ++i) {
+  for (int i = 0; i < A.n - 1; ++i) {
     cell *c2 = newCell();
     c1->p = A.arr[i];
     c1->next = c2;
     c1 = c2;
   }
-  free(A.arr);
+  c1->p = A.arr[A.n - 1];
   return o->o;
 }
 
@@ -210,7 +208,6 @@ sequence simplifyOutline(sequence s, int d) {
   while (ot != NULL) {
     arrInfo C = outlineToArray(*ot);
     ot->o = arrayToOutline(simplifyOutlineRec(C, 0, C.n - 1, d));
-    free(C.arr);
     ot = ot->next;
   }
   return s;
@@ -230,23 +227,20 @@ arrInfo simplifyOutlineRec(arrInfo C, int j1, int j2, int d) {
   A.n = 0;
   if (dmax <= d) {
     A.n = 2;
-    A.arr = (Point *)malloc(A.n);
+    A.arr = (Point *)malloc(A.n * sizeof(Point));
     A.arr[0] = C.arr[j1];
     A.arr[1] = C.arr[j2];
   } else {
     arrInfo A1 = simplifyOutlineRec(C, j1, k, d);
     arrInfo A2 = simplifyOutlineRec(C, k, j2, d);
 
-    A.n = A1.n + A2.n;
-    A.arr = (Point *)malloc(A.n);
+    A.n = A1.n + A2.n - 1;
+    A.arr = (Point *)malloc(A.n * sizeof(Point));
     for (int i = 0; i < A.n; ++i) {
       if (i < A1.n)
         A.arr[i] = A1.arr[i];
       else
-        A.arr[i] = A2.arr[i - A1.n];
-
-      free(A1.arr);
-      free(A2.arr);
+        A.arr[i] = A2.arr[i - A1.n + 1];
     }
   }
   return A;
