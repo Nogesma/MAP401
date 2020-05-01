@@ -17,11 +17,6 @@ typedef struct sequences {
   outline *head;
 } sequence;
 
-typedef struct {
-  unsigned int n;
-  Point *arr;
-} arrInfo;
-
 cell *newCell();
 
 outline *newOutline();
@@ -43,6 +38,6 @@ void outlineRec(Image I, Image M, Point initialPosition, Point currentPosition,
 
 Image mask(Image I);
 
-sequence simplifyOutline(sequence s, int d);
+// sequence simplifyOutlineBezier(sequence s, int d);
 
-arrInfo simplifyOutlineRec(arrInfo C, int j1, int j2, int d);
+// arrInfo simplifyOutlineBezierRec(arrInfo C, int j1, int j2, int d);

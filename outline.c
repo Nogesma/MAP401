@@ -202,46 +202,54 @@ cell *arrayToOutline(arrInfo A) {
   return o->o;
 }
 
-sequence simplifyOutline(sequence s, int d) {
-  outline *ot = newOutline();
-  ot = s.head;
-  while (ot != NULL) {
-    arrInfo C = outlineToArray(*ot);
-    ot->o = arrayToOutline(simplifyOutlineRec(C, 0, C.n - 1, d));
-    ot = ot->next;
-  }
-  return s;
-}
+// sequence simplifyOutlineBezier(sequence s, int d) {
+//  outline *ot = newOutline();
+//  ot = s.head;
+//  while (ot != NULL) {
+//    arrInfo C = outlineToArray(*ot);
+//    ot->o = arrayToOutline(simplifyOutlineRec(C, 0, C.n - 1, d));
+//    ot = ot->next;
+//  }
+//  return s;
+//}
 
-arrInfo simplifyOutlineRec(arrInfo C, int j1, int j2, int d) {
-  double dmax = 0, dj;
-  int k = j1;
-  for (int j = j1 + 1; j < j2; ++j) {
-    dj = pointLineDistance(C.arr[j], C.arr[j1], C.arr[j2]);
-    if (dmax < dj) {
-      dmax = dj;
-      k = j;
-    }
-  }
-  arrInfo A;
-  A.n = 0;
-  if (dmax <= d) {
-    A.n = 2;
-    A.arr = (Point *)malloc(A.n * sizeof(Point));
-    A.arr[0] = C.arr[j1];
-    A.arr[1] = C.arr[j2];
-  } else {
-    arrInfo A1 = simplifyOutlineRec(C, j1, k, d);
-    arrInfo A2 = simplifyOutlineRec(C, k, j2, d);
-
-    A.n = A1.n + A2.n - 1;
-    A.arr = (Point *)malloc(A.n * sizeof(Point));
-    for (int i = 0; i < A.n; ++i) {
-      if (i < A1.n)
-        A.arr[i] = A1.arr[i];
-      else
-        A.arr[i] = A2.arr[i - A1.n + 1];
-    }
-  }
-  return A;
-}
+// arrInfo simplifyOutlineBezier((arrInfo C, int j1, int j2, int d) {
+//  double dmax = 0, dj, ti;
+//  int i, k = j1;
+//  int n = j2 - j1;
+//
+//  B = approxBezier(C, j1, j2);
+//
+//  for (int j = j1 + 1; j < j2; ++j) {
+//    i = j - j1;
+//    ti = (double)i / (double)n;
+//    dj = distancePointBezier(C.arr[j], B, ti);
+//    if (dmax < dj) {
+//      dmax = dj;
+//      k = j;
+//    }
+//  }
+//
+//  arrInfo A;
+//  A.n = 0;
+//  if (dmax <= d) {
+//    A.n = 1;
+//    A.arr = (Bezier2 *)malloc(A.n * sizeof(Bezier2));
+//    A.arr[0] = C.arr[j1];
+//    A.arr[1] = C.arr[j2];
+//  } else {
+//    arrInfo A1 = simplifyOutlineBezierRec(C, j1, k, d);
+//    arrInfo A2 = simplifyOutlineBezierRec(C, k, j2, d);
+//
+//    A.n = A1.n + A2.n - 1;
+//    A.arr = (Bezier2 *)malloc(A.n * sizeof(Bezier2));
+//    for (int i = 0; i < A.n; ++i) {
+//      if (i < A1.n)
+//        A.arr[i] = A1.arr[i];
+//      else
+//        A.arr[i] = A2.arr[i - A1.n + 1];
+//    }
+//  }
+//  return A;
+//
+//}

@@ -1,5 +1,6 @@
 #include "vectors.h"
 #include <math.h>
+#include <stdlib.h>
 
 Point setPoint(double x, double y) {
   Point P = {x, y};
@@ -42,4 +43,47 @@ double pointLineDistance(Point P, Point A, Point B) {
     Point Q = {A.x + lambda * c, A.y + lambda * d};
     return distance(P, Q);
   }
+}
+
+Bezier2 approxBezier(arrInfo C, int j1, int j2) {
+  Bezier2 *B = (Bezier2 *)malloc(sizeof(Bezier2));
+
+  int n = (double)j2 - (double)j1;
+
+  B->c0 = C.arr[j1];
+  B->c2 = C.arr[j2];
+
+  if (n == 1) {
+    B->c1 = C.arr[j1];
+  } else {
+    Point sumOfPoints = {0, 0};
+
+    for (int j = j1 + 1; j < j2; ++j) {
+      i = j - j1;
+      ti = (double)i / (double)n;
+    }
+
+    for (int i = 0; i < n; ++i) {
+      sumOfPoints = addPoint(sumOfPoints, C.arr[i + j1]);
+    }
+    double alpha = (n * (n - 1)) / 2;
+    sumOfPoints.x = sumOfPoints.x * alpha;
+    sumOfPoints.y = sumOfPoints.y * alpha;
+
+    double beta = (n * (n - 1) * (2 * n - 1) / 6);
+    Point finalPoint = addPoint(B->c0, B->c2);
+    finalPoint.x = finalPoint.x * beta;
+    finalPoint.y = finalPoint.y * beta;
+    finalPoint = addPoint(sumOfPoints, finalPoint);
+
+    B->c1 = finalPoint;
+  }
+  return *B;
+}
+
+double distanceBezierPoint(Bezier2 B, Point P, int i) {
+
+  Point C = {};
+
+  return distance(Ci, P);
 }
