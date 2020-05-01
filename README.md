@@ -66,15 +66,3 @@ ___
         <td><a href="img/papillon2_d2.eps">1016</a></td>
     </tr>
 </table>​
-
-|:---:|:---:|:---:|:---:|:---:|
-|a|b|c| d = 1 | d = 2 |
-| [image_poly_tache6.eps](img/image_poly_tache6_d1.eps) | 3 | 483 | 66
-| [Charlot.pbm](img/Charlot.pbm) | 34 | 9040 |
-| [Pink_Panther.pbm](img/Pink_Panther.pbm) | 38 | 32028 |
-| [animaux.pbm](img/animaux.pbm) | 96 | 34396 |
-| [damier_4_5_1.pbm](img/damier_4_5_1.pbm) | 4 | 40 |
-| [deux-des.pbm](img/damier_4_5_1.pbm) | 38 | 11124 |
-| [dessin-delius.pbm](img/damier_4_5_1.pbm) | 815 | 110928 |
-| [gai-luron.pbm](img/damier_4_5_1.pbm) | 375 | 87636 |
-| [papillon2.pbm](img/papillon2.pbm) | 140 | 18212 |
