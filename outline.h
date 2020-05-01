@@ -34,10 +34,10 @@ Point move(Point p, Orientation o);
 sequence getOutlines(Image I);
 
 void outlineRec(Image I, Image M, Point initialPosition, Point currentPosition,
-                cell *c, Orientation o);
+                cell *c, Orientation o, int *u);
 
 Image mask(Image I);
 
-// sequence simplifyOutlineBezier(sequence s, int d);
+sequence simplifyOutline(sequence s, int d);
 
-// arrInfo simplifyOutlineBezierRec(arrInfo C, int j1, int j2, int d);
+arrInfo simplifyOutlineRec(arrInfo C, int j1, int j2, int d);

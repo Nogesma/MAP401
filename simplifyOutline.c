@@ -1,22 +1,45 @@
 #include "file.h"
 
 int main(int argc, char *argv[]) {
+  int numberOfOutlines = 0, numberOfSegments = 0;
+  outline *o = newOutline();
+  cell *c = newCell();
 
-  arrInfo A;
-  A.n = 9;
-  A.arr = (Point *)malloc(A.n * sizeof(Point));
-  A.arr[0] = setPoint(0, 0);
-  A.arr[1] = setPoint(1, 0);
-  A.arr[2] = setPoint(1, 1);
-  A.arr[3] = setPoint(1, 2);
-  A.arr[4] = setPoint(2, 2);
-  A.arr[5] = setPoint(3, 2);
-  A.arr[6] = setPoint(3, 3);
-  A.arr[7] = setPoint(4, 3);
-  A.arr[8] = setPoint(5, 3);
+  Image I = readImageFile(argv[2]);
+  sequence s = getOutlines(I);
 
-  Bezier2 B = approxBezier(A, 0, A.n - 1);
-
-  printf("%f, %f", B.c1.x, B.c1.y);
+  //  printf("Results:\n");
+  //  o = s.head;
+  //  while (o != NULL) {
+  //    c = o->o;
+  //    ++numberOfOutlines;
+  //    --numberOfSegments;
+  //    while (c != NULL) {
+  //      ++numberOfSegments;
+  //      c = c->next;
+  //    }
+  //    o = o->next;
+  //  }
+  //  printf("Nombre de contours: %d\n", numberOfOutlines - 1);
+  //  printf("Nombre de segments (avant simplification): %d\n",
+  //         numberOfSegments - numberOfOutlines);
+  //
+  //  s = simplifyOutline(s, atoi(argv[1]));
+  //
+  //  numberOfSegments = 0;
+  //  o = s.head;
+  //  while (o != NULL) {
+  //    c = o->o;
+  //    --numberOfSegments;
+  //    while (c != NULL) {
+  //      ++numberOfSegments;
+  //      c = c->next;
+  //    }
+  //    o = o->next;
+  //  }
+  //  printf("Nombre de segments (après simplification): %d\n",
+  //         numberOfSegments - numberOfOutlines);
+  //
+  //  writeEps(argv[2], s, I, "s");
   return 0;
 }
