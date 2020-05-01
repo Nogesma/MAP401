@@ -1,7 +1,7 @@
 #include "outline.h"
 
 Point firstPixel(Image I) {
-  double i, j;
+  short i, j;
   Point P = {-1, -1};
   for (j = 0; j < I.H; ++j) {
     for (i = 0; i < I.L; ++i) {

@@ -60,5 +60,6 @@ CMakeLists.txt
 .DS_Store
 
 # Executables
-testOutline
+simplifyOutline
 vectorTest
+vector.test

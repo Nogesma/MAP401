@@ -19,7 +19,7 @@
 #############################################################################
 
 # compilateur C
-CC = clang
+CC = gcc
 
 # chemin d'acces aux librairies (interfaces)
 INCDIR = .
