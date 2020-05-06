@@ -106,49 +106,42 @@ Point move(Point p, Orientation o) {
 
 sequence getOutlines(Image I) {
   sequence s;
+  Point initialPosition, currentPosition;
   outline *ot = newOutline();
   s.head = ot;
   Image M = mask(I);
-  Point P = firstPixel(M);
-  while (P.x != -1 && P.y != -1) {
+  while (initialPosition.x != -1 && initialPosition.y != -1) {
     cell *c = newCell();
     ot->o = c;
     Orientation o = East;
-    setPixelOfImage(M, P.x, P.y, White);
-    outlineRec(I, M, P, P, c, o);
-    P = firstPixel(M);
+    initialPosition = firstPixel(M);
+    currentPosition = initialPosition;
+    do {
+      Point leftPixel, rightPixel;
+      c->p = currentPosition;
+
+      if (o == East)
+        setPixelOfImage(M, currentPosition.x, currentPosition.y, White);
+
+      currentPosition = move(currentPosition, o);
+      getLRPixel(currentPosition, &leftPixel, &rightPixel, o);
+
+      if (getPixelOfImage(I, leftPixel.x, leftPixel.y) == Black) {
+        o = turnLeft(o);
+      } else if (getPixelOfImage(I, rightPixel.x, rightPixel.y) == White) {
+        o = turnRight(o);
+      }
+
+      cell *c1 = newCell();
+      c->next = c1;
+      c = c1;
+    } while (o != East || currentPosition.x != initialPosition.x ||
+             currentPosition.y != initialPosition.y);
     outline *otN = newOutline();
     ot->next = otN;
     ot = ot->next;
   }
   return s;
-}
-
-void outlineRec(Image I, Image M, Point initialPosition, Point currentPosition,
-                cell *c, Orientation o) {
-  Point leftPixel, rightPixel;
-  cell *c1 = newCell();
-
-  c->p = currentPosition;
-  c->next = c1;
-
-  if (o == East)
-    setPixelOfImage(M, currentPosition.x, currentPosition.y, White);
-  currentPosition = move(currentPosition, o);
-
-  getLRPixel(currentPosition, &leftPixel, &rightPixel, o);
-
-  if (getPixelOfImage(I, leftPixel.x, leftPixel.y) == Black) {
-    o = turnLeft(o);
-  } else if (getPixelOfImage(I, rightPixel.x, rightPixel.y) == White) {
-    o = turnRight(o);
-  }
-
-  if (o == East && currentPosition.x == initialPosition.x &&
-      currentPosition.y == initialPosition.y) {
-    return;
-  }
-  outlineRec(I, M, initialPosition, currentPosition, c1, o);
 }
 
 Image mask(Image I) {
