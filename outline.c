@@ -192,6 +192,7 @@ cell *arrayToOutline(arrInfo A) {
     c1 = c2;
   }
   c1->p = A.arr[A.n - 1];
+  free(A.arr);
   return o->o;
 }
 
@@ -200,6 +201,7 @@ sequence simplifyOutline(sequence s, int d) {
   ot = s.head;
   while (ot != NULL) {
     arrInfo C = outlineToArray(*ot);
+    free(ot->o);
     ot->o = arrayToOutline(simplifyOutlineRec(C, 0, C.n - 1, d));
     ot = ot->next;
   }
@@ -235,6 +237,8 @@ arrInfo simplifyOutlineRec(arrInfo C, int j1, int j2, int d) {
       else
         A.arr[i] = A2.arr[i - A1.n + 1];
     }
+    free(A1.arr);
+    free(A2.arr);
   }
   return A;
 }
