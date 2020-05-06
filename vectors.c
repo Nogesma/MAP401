@@ -1,5 +1,6 @@
 #include "vectors.h"
 #include <math.h>
+#include <stdlib.h>
 
 Point setPoint(double x, double y) {
   Point P = {x, y};
